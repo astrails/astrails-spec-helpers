@@ -1,0 +1,7 @@
+= astrails-spec-helpers
+
+various helpers for rspec and skinny_spec. internal usage, not yet ready for release.
+
+== Copyright
+
+Copyright (c) 2009 Vitaly Kushner. See LICENSE for details.
