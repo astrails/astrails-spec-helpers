@@ -84,6 +84,7 @@ module Astrails
         def stub_current_user(stubs = {}, user = stub_user_and_find(stubs))
           return if @current_user
           UserSession.create(@current_user = user)
+          stub_finds(User, user)
           user
         end
 
@@ -124,7 +125,9 @@ module Astrails
         end
 
         def shared_request
-          params[:id] ||= "__id__" if [:show, :edit, :update, :destroy].include?(@action)
+          if [:show, :edit, :update, :destroy].include?(@action)
+            params[:id] = "__id__" unless params.has_key?(:id)
+          end
           send(default_action_method(@action), @action, params)
         end
 
@@ -138,6 +141,10 @@ module Astrails
 
         def stub_current_user(stubs = {})
           before(:each) {stub_current_user(stubs)}
+        end
+
+        def stub_finds(klass, obj)
+          before(:each) {stub_finds(klass, obj)}
         end
 
         def with_current_user(stubs = {})
